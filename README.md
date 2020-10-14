@@ -1,0 +1,1 @@
+# IdentityAccessManagement-smoke-test-application
