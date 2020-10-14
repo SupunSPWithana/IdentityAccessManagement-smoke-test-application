@@ -14,7 +14,6 @@ read -p "Enter new user role: "  role
 user="$(curl -v -k --user $isUsername:$isPassword --data "{"schemas":[],"name":{"familyName":'$lname',"givenName":'$fname'},"userName":'$username',"password":'$password',"emails":[{"primary":true,"value":"wso2_home.com","type":"home"},{"value":"wso2_work.com","type":"work"}]}" --header "Content-Type:application/json" https://localhost:9443/wso2/scim/Users)"
 
 
-
 id=$(echo $user | jq '.id')
 echo "\nuser ID : $id"
 
@@ -23,10 +22,8 @@ echo "\nuser ID : $id"
 grps="$(curl -v -k --user $isUsername:$isPassword --data '{"displayName": '$role',"members": [{"value":'$id'}] }  ' --header "Content-Type:application/json" https://localhost:9443/wso2/scim/Groups )"
 
 
-
 grpId=$(echo $grps | jq '.id')
 echo "\nGroup ID : $grpId"
-
 
 
 temp2="${grpId%\"}"
@@ -36,7 +33,6 @@ newGrpId="${temp2#\"}"
 curl -v -k --user admin:admin -X DELETE https://localhost:9443/wso2/scim/Groups/${newGrpId} -H "Accept: application/json"
 
 
-
 temp1="${id%\"}"
 idNew="${temp1#\"}"
 
@@ -44,9 +40,5 @@ idNew="${temp1#\"}"
 curl -v -k --user $isUsername:$isPassword -X DELETE https://localhost:9443/wso2/scim/Users/${idNew} -H "Accept: application/json"
 
 
-
-
 echo "\nUser Registered and Deleted Successfully in IS......."
-
-
 
